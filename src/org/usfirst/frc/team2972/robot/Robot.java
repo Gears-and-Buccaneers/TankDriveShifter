@@ -1,9 +1,12 @@
 package org.usfirst.frc.team2972.robot;
 
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -21,14 +24,25 @@ import edu.wpi.first.wpilibj.Timer;
  * this system. Use IterativeRobot or Command-Based instead if you're new.
  */
 public class Robot extends SampleRobot {
-    RobotDrive myRobot;  // class that handles basic drive operations
     Joystick leftStick;  // set to ID 1 in DriverStation
     Joystick rightStick; // set to ID 2 in DriverStation
+    
+    Talon rightTalon, leftTalon;
+    
+    Compressor compressor = new Compressor(0);
+    DoubleSolenoid shifter = new DoubleSolenoid(1,2);
+    
+    // Channels for the things
+    final int rightTalonChannel = 1;
+    final int leftTalonChannel = 2;
+    
     public Robot() {
-        myRobot = new RobotDrive(0, 1);
-        myRobot.setExpiration(0.1);
         leftStick = new Joystick(0);
         rightStick = new Joystick(1);
+        
+        leftTalon = new Talon(rightTalonChannel);
+        rightTalon = new Talon(leftTalonChannel);
+        
     }
 
     
@@ -36,9 +50,13 @@ public class Robot extends SampleRobot {
      * Runs the motors with tank steering.
      */
     public void operatorControl() {
-        myRobot.setSafetyEnabled(true);
+       
         while (isOperatorControl() && isEnabled()) {
-        	myRobot.tankDrive(leftStick, rightStick);
+        	rightTalon.set(rightStick.getX());
+        	leftTalon.set(leftStick.getX());
+        	
+        	
+        	
             Timer.delay(0.005);		// wait for a motor update time
         }
     }
