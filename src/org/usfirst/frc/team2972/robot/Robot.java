@@ -55,6 +55,14 @@ public class Robot extends SampleRobot {
         	rightTalon.set(rightStick.getX());
         	leftTalon.set(leftStick.getX());
         	
+        	//Shifter Code
+        	if (rightStick.getRawButton(4)){
+        		shifter.set(DoubleSolenoid.Value.kForward);
+        	}else if(rightStick.getRawButton(5)){
+        		shifter.set(DoubleSolenoid.Value.kReverse);
+        	}else{
+        		shifter.set(DoubleSolenoid.Value.kOff);
+        	}
         	
         	
             Timer.delay(0.005);		// wait for a motor update time
