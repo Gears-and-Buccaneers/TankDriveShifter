@@ -30,19 +30,20 @@ public class Robot extends SampleRobot {
     Talon rightTalon, leftTalon;
     
     Compressor compressor = new Compressor(0);
-    DoubleSolenoid shifter = new DoubleSolenoid(1,2);
+    DoubleSolenoid shifter = new DoubleSolenoid(0,1);
     
     // Channels for the things
-    final int rightTalonChannel = 1;
-    final int leftTalonChannel = 2;
+    final int rightTalonChannel = 0;
+    final int leftTalonChannel = 1;
     
     public Robot() {
-        leftStick = new Joystick(0);
-        rightStick = new Joystick(1);
+        leftStick = new Joystick(1);
+        rightStick = new Joystick(0);
         
-        leftTalon = new Talon(rightTalonChannel);
-        rightTalon = new Talon(leftTalonChannel);
+        leftTalon = new Talon(leftTalonChannel);
+        rightTalon = new Talon(rightTalonChannel);
         
+        compressor.setClosedLoopControl(true);
     }
 
     
@@ -52,13 +53,13 @@ public class Robot extends SampleRobot {
     public void operatorControl() {
        
         while (isOperatorControl() && isEnabled()) {
-        	rightTalon.set(rightStick.getX());
-        	leftTalon.set(leftStick.getX());
+        	rightTalon.set(rightStick.getY());
+        	leftTalon.set(leftStick.getY()*-1);
         	
         	//Shifter Code
-        	if (rightStick.getRawButton(4)){
+        	if (rightStick.getRawButton(1)){
         		shifter.set(DoubleSolenoid.Value.kForward);
-        	}else if(rightStick.getRawButton(5)){
+        	}else if(leftStick.getRawButton(1)){
         		shifter.set(DoubleSolenoid.Value.kReverse);
         	}else{
         		shifter.set(DoubleSolenoid.Value.kOff);
