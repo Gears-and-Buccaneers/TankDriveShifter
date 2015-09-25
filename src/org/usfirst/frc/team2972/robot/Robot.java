@@ -59,7 +59,7 @@ public class Robot extends SampleRobot {
         	//Shifter Code
         	if (rightStick.getRawButton(1)){
         		shifter.set(DoubleSolenoid.Value.kForward);
-        	}else if(leftStick.getRawButton(1)){
+        	}else if(rightStick.getRawButton(2)){
         		shifter.set(DoubleSolenoid.Value.kReverse);
         	}else{
         		shifter.set(DoubleSolenoid.Value.kOff);
